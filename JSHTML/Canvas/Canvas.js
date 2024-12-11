@@ -19,7 +19,7 @@ class Display {
     this.pixelHeight = this.canvas.height / this.y;
     this.lock = false;
   }
-
+  //comment test
   putPixel(x, y, color) {
     if (this.lock) return;
     this.BitMap.plane[y][x] = color;
