@@ -65,9 +65,19 @@ class Display {
       );
     }
   }
+
+  rectange(x1, y1, x2, y2, color) {
+    if (this.lock) return;
+
+    this.line(x1, y1, x2, y1, color); // Top 
+    this.line(x2, y2, x1, y2, color); // Bottom 
+    this.line(x2, y1, x2, y2, color); // Right 
+    this.line(x1, y2, x1, y1, color); // Left 
+  }
 }
 
 let ySize = 32;
 let xSize = Math.ceil(ySize * 1.638);
 const display = new Display(canvas, ySize, xSize);
-display.circle(9, 5, 3, [192, 192, 192]);
+
+display.rectange(30, 51, 1, 1, [192, 192, 192]);
