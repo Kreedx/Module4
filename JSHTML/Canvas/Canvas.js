@@ -69,10 +69,15 @@ class Display {
   rectange(x1, y1, x2, y2, color) {
     if (this.lock) return;
 
-    this.line(x1, y1, x2, y1, color); // Top 
-    this.line(x2, y2, x1, y2, color); // Bottom 
-    this.line(x2, y1, x2, y2, color); // Right 
-    this.line(x1, y2, x1, y1, color); // Left 
+    this.line(x1, y1, x2, y1, color); // Top
+    this.line(x2, y2, x1, y2, color); // Bottom
+    this.line(x2, y1, x2, y2, color); // Right
+    this.line(x1, y2, x1, y1, color); // Left
+  }
+
+  clear() {
+    this.context.fillStyle = `rgb(255,255,255)`;
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 }
 
@@ -81,3 +86,4 @@ let xSize = Math.ceil(ySize * 1.638);
 const display = new Display(canvas, ySize, xSize);
 
 display.rectange(30, 51, 1, 1, [192, 192, 192]);
+display.clear();
