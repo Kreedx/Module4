@@ -19,30 +19,55 @@ class Display {
     this.pixelHeight = this.canvas.height / this.y;
     this.lock = false;
   }
-  //comment test
+
   putPixel(x, y, color) {
     if (this.lock) return;
-    this.BitMap.plane[y][x] = color;
-    this.context.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-    this.context.fillRect(
-      x * this.pixelWidth,
-      y * this.pixelHeight,
-      this.pixelWidth,
-      this.pixelHeight
-    );
+
+    if (x >= 0 && x < this.x && y >= 0 && y < this.y) {
+      this.BitMap.plane[y][x] = color;
+      this.context.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+      this.context.fillRect(
+        x * this.pixelWidth,
+        y * this.pixelHeight,
+        this.pixelWidth,
+        this.pixelHeight
+      );
+    }
   }
 
-  line(x1, y1, x2, y2, color){
+  line(x1, y1, x2, y2, color) {
     if (this.lock) return;
-    this.BitMap.plane[y][x] = color;
 
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const steps = Math.max(Math.abs(dx), Math.abs(dy));
+    const xInc = dx / steps;
+    const yInc = dy / steps;
+
+    let x = x1;
+    let y = y1;
+
+    for (let i = 0; i < steps; i++) {
+      this.putPixel(x, y, color);
+      x += xInc;
+      y += yInc;
+    }
   }
 
+  circle(x1, y1, r, color) {
+    if (this.lock) return;
+
+    for (let i = 1; i <= 360; i += 1 / r) {
+      this.putPixel(
+        Math.round(x1 + r * Math.cos(i)),
+        Math.round(y1 + r * Math.sin(i)),
+        color
+      );
+    }
+  }
 }
 
-let ySize = 16;
+let ySize = 32;
 let xSize = Math.ceil(ySize * 1.638);
 const display = new Display(canvas, ySize, xSize);
-display.putPixel(15, 0, [0, 255, 0]);
-display.putPixel(0, 26, [255, 0, 0]);
-display.putPixel(7.5, 13, [0, 0, 255]);
+display.circle(9, 5, 3, [192, 192, 192]);
