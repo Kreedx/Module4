@@ -6,7 +6,6 @@ class BitMap {
     this.plane = new Array(x * y).fill([0, 0, 0]);
   }
 
-  getIndex() {}
 }
 class Display {
   constructor(canvas, x, y) {
@@ -75,15 +74,49 @@ class Display {
     this.line(x1, y2, x1, y1, color); // Left
   }
 
-  clear() {
-    this.context.fillStyle = `rgb(255,255,255)`;
+  clear(color) {
+    this.context.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  resize(x,y){
+    if (this.lock) return;
+
+    this.x = x;
+    this.y = y;
+    this.BitMap = new BitMap(x, y);
+    this.pixelWidth = this.canvas.width / this.x;
+    this.pixelHeight = this.canvas.height / this.y;
+  }
+
+  drawGrid() {
+    this.context.strokeStyle = "rgba(0, 0, 0, 1)";
+    this.context.lineWidth = 1;
+  
+    for (let x = 0; x <= this.x; x++) {
+      const xPos = x * this.pixelWidth;
+      this.context.beginPath();
+      this.context.moveTo(xPos, 0);
+      this.context.lineTo(xPos, this.canvas.height);
+      this.context.stroke();
+    }
+  
+    // Draw horizontal lines
+    for (let y = 0; y <= this.y; y++) {
+      const yPos = y * this.pixelHeight;
+      this.context.beginPath();
+      this.context.moveTo(0, yPos);
+      this.context.lineTo(this.canvas.width, yPos);
+      this.context.stroke();
+    }
   }
 }
 
 let ySize = 32;
-let xSize = Math.ceil(ySize * 1.638);
+let xSize = Math.ceil(ySize * 1.618);
 const display = new Display(canvas, ySize, xSize);
-
-display.rectange(30, 51, 1, 1, [192, 192, 192]);
-display.clear();
+display.drawGrid();
+display.putPixel(10, 10, [255, 0, 0]); // Red pixel
+display.putPixel(11, 10, [0, 255, 0]); // Green pixel
+display.putPixel(12, 10, [0, 0, 255]); // Blue pixel
+display.putPixel(13, 10, [0, 255, 255]); // Blue pixel  
