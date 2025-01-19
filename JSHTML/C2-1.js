@@ -153,6 +153,10 @@ console.log("Base Linked List:");
 list.generate(10);
 list.insert(202020, 0);
 list.showAll();
+list.length();
+list.sort();
+list.showAll();
+
 
 // console.log("Insert Method:");
 // list.insert(69696969, 3);

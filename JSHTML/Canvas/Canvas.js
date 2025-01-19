@@ -1,4 +1,5 @@
 const canvas = document.querySelector("canvas");
+
 class BitMap {
   constructor(x, y) {
     this.x = x;
@@ -74,6 +75,14 @@ class Display {
     this.line(x1, y2, x1, y1, color); // Left
   }
 
+  triangle(x1, y1, x2, y2, x3, y3, color) {
+    if (this.lock) return;
+
+    this.line(x1, y1, x2, y2, color);
+    this.line(x2, y2, x3, y3, color);
+    this.line(x3, y3, x1, y1, color);
+  }
+
   clear(color) {
     this.context.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -112,11 +121,8 @@ class Display {
   }
 }
 
-let ySize = 32;
+let ySize = 16;
 let xSize = Math.ceil(ySize * 1.618);
 const display = new Display(canvas, ySize, xSize);
 display.drawGrid();
-display.putPixel(10, 10, [255, 0, 0]); // Red pixel
-display.putPixel(11, 10, [0, 255, 0]); // Green pixel
-display.putPixel(12, 10, [0, 0, 255]); // Blue pixel
-display.putPixel(13, 10, [0, 255, 255]); // Blue pixel  
+display.triangle(5, 5, 15, 5, 10, 15, [0, 255, 255]); 
