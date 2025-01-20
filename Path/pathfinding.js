@@ -1,4 +1,4 @@
-const first = [
+  const first = [
     "The Flowery Garden",
     "The Misty Valley",
     "The Silent Forest",
@@ -211,9 +211,9 @@ const first = [
     }
   }
   
-  let myWorld = new World("Anglia", "rectangle", 63);
+  let myWorld = new World("Anglia", "rectangle", 64);
   myWorld.generateHTML();
   
-  const path = myWorld.PathFinding(0, 62);
+  const path = myWorld.PathFinding(0, 31);
   const pathDisplay = document.getElementById('path-display');
   pathDisplay.textContent = `Shortest path: ${path ? path.join(" -> ") : "No path found"}`;
